@@ -358,7 +358,7 @@ const Dashboard = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [noteTitle, noteContent, showDeleteModal, currentEditId]);
+  }, [noteTitle, noteContent, showDeleteModal, currentEditId, cancelEdit, saveNote]);
 
   if (loading) {
     return (
