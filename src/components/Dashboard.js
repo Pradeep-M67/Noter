@@ -277,6 +277,59 @@ const Dashboard = () => {
     timeZone: 'Asia/Kolkata',
   });
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    if (diffInSeconds < 60) return 'just now';
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} ${diffInMinutes === 1 ? 'minute' : 'minutes'} ago`;
+    }
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours} ${diffInHours === 1 ? 'hour' : 'hours'} ago`;
+    }
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) {
+      return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
+    }
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const formatLogTime = (date) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const logDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const diffInDays = Math.floor((today - logDate) / (1000 * 60 * 60 * 24));
+    const timeString = date.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+    if (diffInDays === 0) {
+      return `Today, ${timeString}`;
+    } else if (diffInDays === 1) {
+      return `Yesterday, ${timeString}`;
+    } else if (diffInDays < 7) {
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+      return `${dayName}, ${timeString}`;
+    } else {
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+    }
+  };
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
