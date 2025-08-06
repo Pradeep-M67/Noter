@@ -118,7 +118,7 @@ const Dashboard = () => {
   };
 
   // Notes functions (frontend-only)
-  const saveNote = () => {
+  const saveNote = useCallback(() => {
     const title = noteTitle.trim();
     const content = noteContent.trim();
     if (!title && !content) {
@@ -152,7 +152,7 @@ const Dashboard = () => {
       clearForm();
       setActiveTab('view');
     }
-  };
+  }, [noteTitle, noteContent, currentEditId, showToast, setNotes, cancelEdit, generateId, clearForm, setActiveTab]);
 
   const editNote = (id) => {
     const note = notes.find(note => note._id === id);
@@ -163,10 +163,10 @@ const Dashboard = () => {
     setActiveTab('create');
   };
 
-  const cancelEdit = () => {
+  const cancelEdit = useCallback(() => {
     setCurrentEditId(null);
     clearForm();
-  };
+  }, [clearForm]);
 
   const clearForm = () => {
     setNoteTitle('');
